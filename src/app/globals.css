@@ -19,3 +19,10 @@
   --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
   --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
 }
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 0.25rem;
+  }
+}
