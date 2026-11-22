@@ -9,9 +9,11 @@ const navLinks = [
   { href: "#visit", label: "Visit" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   return (
-    <header className="relative z-50 border-b border-ivory/10">
+    <header
+      className={`${overlay ? "absolute inset-x-0 top-0" : "relative"} z-50 border-b border-ivory/10`}
+    >
       <div className="mx-auto flex max-w-site items-center justify-between gap-4 px-5 py-5 md:gap-6 md:px-8">
         <Link
           href="/"

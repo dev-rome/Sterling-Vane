@@ -19,10 +19,10 @@ export function Hero() {
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-espresso/75 md:bg-transparent md:bg-linear-to-r md:from-espresso/95 md:via-espresso/70 md:to-espresso/15"
+        className="absolute inset-0 -z-10 bg-espresso/75 md:bg-transparent md:bg-linear-to-r md:from-espresso/95 md:via-espresso/85 md:to-espresso/15"
       />
 
-      <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 py-24 md:px-8 md:py-32">
+      <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 md:px-8 pt-36 pb-12 md:pt-44 md:pb-10">
         <p className="self-start border border-amber px-3.5 py-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.28em] text-amber">
           West Loop · Chicago · Est. 2014
         </p>
