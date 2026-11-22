@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MobileMenu } from "@/components/MobileMenu";
 
 const navLinks = [
   { href: "#services", label: "Services" },
@@ -10,7 +11,7 @@ const navLinks = [
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-ivory/10">
+    <header className="relative border-b border-ivory/10">
       <div className="mx-auto flex max-w-site items-center justify-between gap-6 px-5 py-5 md:px-8">
         <Link href="/" className="font-display text-2xl font-medium">
           Sterling <em className="text-amber">&amp;</em> Vane
@@ -31,12 +32,15 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <Link
-          href="/book"
-          className="bg-amber px-5 py-3 text-xs font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-amber-light"
-        >
-          Book now
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/book"
+            className="bg-amber px-5 py-3 text-xs font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-amber-light"
+          >
+            Book now
+          </Link>
+          <MobileMenu links={navLinks} />
+        </div>
       </div>
     </header>
   );
