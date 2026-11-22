@@ -11,9 +11,12 @@ const navLinks = [
 
 export function SiteHeader() {
   return (
-    <header className="relative border-b border-ivory/10">
-      <div className="mx-auto flex max-w-site items-center justify-between gap-6 px-5 py-5 md:px-8">
-        <Link href="/" className="font-display text-2xl font-medium">
+    <header className="relative z-50 border-b border-ivory/10">
+      <div className="mx-auto flex max-w-site items-center justify-between gap-4 px-5 py-5 md:gap-6 md:px-8">
+        <Link
+          href="/"
+          className="whitespace-nowrap font-display text-xl font-medium md:text-2xl"
+        >
           Sterling <em className="text-amber">&amp;</em> Vane
         </Link>
 
@@ -35,7 +38,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <Link
             href="/book"
-            className="bg-amber px-5 py-3 text-xs font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-amber-light"
+            className="whitespace-nowrap bg-amber px-4 py-3 text-xs font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-amber-light md:px-5"
           >
             Book now
           </Link>
