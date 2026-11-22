@@ -55,6 +55,46 @@ export function Hero() {
             View services
           </a>
         </div>
+        <div className="mt-10 flex flex-wrap items-end justify-between gap-6 border-t border-ivory/10 pt-8">
+          <dl className="flex flex-wrap items-center gap-12">
+            <div>
+              <dt className="sr-only">Google rating</dt>
+              <dd className="font-display text-[2.125rem] leading-none">
+                4.9
+                <span aria-hidden="true" className="ml-2 text-lg text-amber">
+                  ★★★★★
+                </span>
+              </dd>
+              <dd className="mt-1 text-[0.8125rem] text-stone">
+                600+ Google reviews
+              </dd>
+            </div>
+            <div>
+              <dt className="sr-only">Appointment length</dt>
+              <dd className="font-display text-[2.125rem] leading-none">
+                60 min
+              </dd>
+              <dd className="mt-1 text-[0.8125rem] text-stone">
+                Every appointment
+              </dd>
+            </div>
+          </dl>
+
+          <div className="flex items-center gap-3.5 border border-line bg-card/90 px-5 py-4">
+            <span
+              aria-hidden="true"
+              className="size-2 rounded-full bg-[#7cc495]"
+            />
+            <p>
+              <span className="block text-[0.6875rem] uppercase tracking-[0.22em] text-stone">
+                Next available
+              </span>
+              <span className="text-[0.9375rem] font-normal">
+                Today, 4:30 PM · with Marcus
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
