@@ -1,9 +1,28 @@
+import Image from "next/image";
 import Link from "next/link";
+import heroImage from "../../public/images/hero.jpg";
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-heading" className="relative">
-      <div className="mx-auto flex max-w-site flex-col gap-7 px-5 py-24 md:px-8 md:py-32">
+    <section
+      aria-labelledby="hero-heading"
+      className="relative isolate flex min-h-160 items-center overflow-hidden md:min-h-220"
+    >
+      <Image
+        src={heroImage}
+        alt=""
+        fill
+        preload
+        placeholder="blur"
+        sizes="100vw"
+        className="-z-20 object-cover"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-espresso/75 md:bg-transparent md:bg-linear-to-r md:from-espresso/95 md:via-espresso/70 md:to-espresso/15"
+      />
+
+      <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 py-24 md:px-8 md:py-32">
         <p className="self-start border border-amber px-3.5 py-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.28em] text-amber">
           West Loop · Chicago · Est. 2014
         </p>
