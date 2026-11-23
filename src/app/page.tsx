@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
+import { OurStory } from "@/components/OurStory";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <SiteHeader overlay />
       <main>
         <Hero />
+        <OurStory />
       </main>
     </>
   );
