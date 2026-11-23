@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { services } from "@/data/services";
 import { ServiceIcon } from "@/components/ServiceIcon";
-
-const formatPrice = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
+import { formatPrice } from "@/lib/format";
 
 export function Services() {
   return (
