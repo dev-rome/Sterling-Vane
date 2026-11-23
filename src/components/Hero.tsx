@@ -22,14 +22,14 @@ export function Hero() {
         className="absolute inset-0 -z-10 bg-espresso/75 md:bg-transparent md:bg-linear-to-r md:from-espresso/95 md:via-espresso/85 md:to-espresso/15"
       />
 
-      <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 md:px-8 pt-36 pb-12 md:pt-44 md:pb-10">
-        <p className="self-start border border-amber px-3.5 py-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.28em] text-amber">
+      <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 pt-36 pb-12 md:px-8 md:pt-44 md:pb-10">
+        <p className="self-start border border-amber px-3.5 py-1.5 text-[0.6875rem] font-medium tracking-[0.28em] text-amber uppercase">
           West Loop · Chicago · Est. 2014
         </p>
 
         <h1
           id="hero-heading"
-          className="max-w-[11em] font-display text-[clamp(3rem,2rem+5vw,6rem)] font-normal leading-[0.98] tracking-[-0.015em]"
+          className="max-w-[11em] font-display text-[clamp(3rem,2rem+5vw,6rem)] leading-[0.98] font-normal tracking-[-0.015em]"
         >
           Not a haircut.
           <br />
@@ -44,13 +44,13 @@ export function Hero() {
         <div className="mt-2 flex flex-wrap items-center gap-8">
           <Link
             href="/book"
-            className="bg-amber px-8 py-4 text-[0.8125rem] font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-amber-light"
+            className="bg-amber px-8 py-4 text-[0.8125rem] font-medium tracking-[0.18em] text-espresso uppercase transition-colors hover:bg-amber-light"
           >
             Reserve your chair
           </Link>
           <a
             href="#services"
-            className="border-b border-amber pb-1.5 text-[0.8125rem] uppercase tracking-[0.18em] transition-colors hover:text-amber"
+            className="border-b border-amber pb-1.5 text-[0.8125rem] tracking-[0.18em] uppercase transition-colors hover:text-amber"
           >
             View services
           </a>
@@ -86,7 +86,7 @@ export function Hero() {
               className="size-2 rounded-full bg-[#7cc495]"
             />
             <p>
-              <span className="block text-[0.6875rem] uppercase tracking-[0.22em] text-stone">
+              <span className="block text-[0.6875rem] tracking-[0.22em] text-stone uppercase">
                 Next available
               </span>
               <span className="text-[0.9375rem] font-normal">

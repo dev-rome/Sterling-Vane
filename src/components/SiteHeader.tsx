@@ -17,7 +17,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
       <div className="mx-auto flex max-w-site items-center justify-between gap-4 px-5 py-5 md:gap-6 md:px-8">
         <Link
           href="/"
-          className="whitespace-nowrap font-display text-xl font-medium md:text-2xl"
+          className="font-display text-xl font-medium whitespace-nowrap md:text-2xl"
         >
           Sterling <em className="text-amber">&amp;</em> Vane
         </Link>
@@ -40,7 +40,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
         <div className="flex items-center gap-3">
           <Link
             href="/book"
-            className="whitespace-nowrap bg-amber px-4 py-3 text-xs font-medium uppercase tracking-[0.18em] text-espresso transition-colors hover:bg-amber-light md:px-5"
+            className="bg-amber px-4 py-3 text-xs font-medium tracking-[0.18em] whitespace-nowrap text-espresso uppercase transition-colors hover:bg-amber-light md:px-5"
           >
             Book now
           </Link>

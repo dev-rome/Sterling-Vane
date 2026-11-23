@@ -26,11 +26,11 @@ export function OurStory() {
           />
         </div>
 
-        <div className="absolute -bottom-6 right-4 flex size-34 md:size-45 flex-col items-center justify-center border border-amber bg-espresso text-center md:-right-6">
-          <span className="font-display text-[3rem] md:text-[4rem] leading-none text-amber">
+        <div className="absolute right-4 -bottom-6 flex size-34 flex-col items-center justify-center border border-amber bg-espresso text-center md:-right-6 md:size-45">
+          <span className="font-display text-[3rem] leading-none text-amber md:text-[4rem]">
             12
           </span>
-          <span className="mt-1 text-[0.625rem] md:text-[0.6875rem] uppercase leading-snug tracking-[0.22em] text-stone">
+          <span className="mt-1 text-[0.625rem] leading-snug tracking-[0.22em] text-stone uppercase md:text-[0.6875rem]">
             Years on
             <br />
             Fulton Market
@@ -39,13 +39,13 @@ export function OurStory() {
       </div>
 
       <div className="flex flex-col gap-6 md:flex-1">
-        <p className="text-[0.6875rem] font-medium uppercase tracking-[0.3em] text-amber">
+        <p className="text-[0.6875rem] font-medium tracking-[0.3em] text-amber uppercase">
           Our story
         </p>
 
         <h2
           id="story-heading"
-          className="font-display text-[clamp(2.5rem,1.75rem+3vw,3.75rem)] font-normal leading-[1.02]"
+          className="font-display text-[clamp(2.5rem,1.75rem+3vw,3.75rem)] leading-[1.02] font-normal"
         >
           Quiet precision,
           <br />
