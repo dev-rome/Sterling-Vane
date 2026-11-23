@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
 import { OurStory } from "@/components/OurStory";
 import { Services } from "@/components/Services";
+import { Barbers } from "@/components/Barbers";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
         <Hero />
         <OurStory />
         <Services />
+        <Barbers />
       </main>
     </>
   );
