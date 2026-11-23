@@ -7,6 +7,7 @@ export type Service = {
   price: number;
   duration: number;
   icon: IconName;
+  featured?: boolean;
 };
 
 export const services: Service[] = [
@@ -36,6 +37,7 @@ export const services: Service[] = [
     price: 120,
     duration: 90,
     icon: "star",
+    featured: true,
   },
   {
     slug: "skin-fade",

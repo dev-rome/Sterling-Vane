@@ -36,8 +36,15 @@ export function Services() {
           {services.map((service) => (
             <li
               key={service.slug}
-              className="relative flex flex-col gap-3.5 border border-line bg-card p-8 transition-colors hover:border-amber"
+              className={`relative flex flex-col gap-3.5 border bg-card p-8 transition-colors hover:border-amber ${
+                service.featured ? "border-amber" : "border-line"
+              }`}
             >
+              {service.featured && (
+                <span className="absolute top-0 right-0 bg-amber px-3 py-1.5 text-[0.625rem] font-medium tracking-[0.2em] text-espresso uppercase">
+                  Most booked
+                </span>
+              )}
               <ServiceIcon name={service.icon} />
               <h3 className="font-display text-[1.875rem] leading-tight font-medium">
                 <Link
@@ -61,7 +68,11 @@ export function Services() {
                 </p>
                 <span
                   aria-hidden="true"
-                  className="flex size-11 items-center justify-center border border-line"
+                  className={`flex size-11 items-center justify-center ${
+                    service.featured
+                      ? "bg-amber text-espresso"
+                      : "border border-line"
+                  }`}
                 >
                   <svg
                     viewBox="0 0 24 24"
