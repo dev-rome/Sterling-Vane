@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { services } from "@/data/services";
+import { ServiceIcon } from "@/components/ServiceIcon";
 
 const formatPrice = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -37,6 +38,7 @@ export function Services() {
               key={service.slug}
               className="relative flex flex-col gap-3.5 border border-line bg-card p-8 transition-colors hover:border-amber"
             >
+              <ServiceIcon name={service.icon} />
               <h3 className="font-display text-[1.875rem] leading-tight font-medium">
                 <Link
                   href={`/book?service=${service.slug}`}
