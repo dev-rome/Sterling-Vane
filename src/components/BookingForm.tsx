@@ -1,9 +1,10 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bookingSchema, type BookingInput } from "@/lib/booking-schema";
+import { submitBooking } from "@/app/book/actions";
 import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
 import { formatPrice } from "@/lib/format";
@@ -60,6 +61,7 @@ export function BookingForm() {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<BookingInput>({
     resolver: zodResolver(bookingSchema),
@@ -74,6 +76,12 @@ export function BookingForm() {
       notes: "",
     },
   });
+
+  const [confirmed, setConfirmed] = useState<{
+    booking: BookingInput;
+    demo: boolean;
+  } | null>(null);
+  const [serverError, setServerError] = useState("");
 
   const today = useSyncExternalStore(
     subscribeToNothing,
@@ -106,8 +114,80 @@ export function BookingForm() {
   const chosenDate = parseDate(selectedDate);
 
   async function onSubmit(data: BookingInput) {
-    // Temporary: replaced by a server action in Part 8.
-    console.log("Valid booking:", data);
+    setServerError("");
+    try {
+      const result = await submitBooking(data);
+      if (result.ok) {
+        setConfirmed({ booking: data, demo: result.mode === "demo" });
+        window.scrollTo({ top: 0 });
+      } else {
+        setServerError(result.error);
+      }
+    } catch {
+      setServerError(
+        "We couldn’t reach the shop. Check your connection and try again.",
+      );
+    }
+  }
+
+  function startOver() {
+    reset();
+    setConfirmed(null);
+  }
+
+  if (confirmed) {
+    const service = services.find((s) => s.slug === confirmed.booking.service);
+    const barber = barbers.find((b) => b.slug === confirmed.booking.barber);
+    const date = parseDate(confirmed.booking.date);
+
+    return (
+      <section
+        aria-labelledby="confirmation-heading"
+        className="mt-14 max-w-160 border border-amber bg-card p-8 md:p-12"
+      >
+        <p className="text-[0.6875rem] font-medium tracking-[0.3em] text-amber uppercase">
+          Request received
+        </p>
+        <h2
+          id="confirmation-heading"
+          tabIndex={-1}
+          ref={(el) => el?.focus()}
+          className="mt-4 font-display text-[clamp(2rem,1.5rem+2vw,2.75rem)] leading-tight outline-none"
+        >
+          Thank you, {confirmed.booking.name.split(" ")[0]}.
+        </h2>
+        <p className="mt-4 text-stone">
+          We&rsquo;ve received your request and will email{" "}
+          <span className="text-ivory">{confirmed.booking.email}</span> to
+          confirm your appointment.
+        </p>
+
+        <dl className="mt-8 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 border-y border-line py-5 text-[0.9375rem]">
+          <dt className="text-stone">Service</dt>
+          <dd className="text-right">{service?.name}</dd>
+          <dt className="text-stone">Barber</dt>
+          <dd className="text-right">{barber?.name ?? "No preference"}</dd>
+          <dt className="text-stone">Date</dt>
+          <dd className="text-right">{date && formatDay.format(date)}</dd>
+          <dt className="text-stone">Time</dt>
+          <dd className="text-right">{formatSlot(confirmed.booking.time)}</dd>
+        </dl>
+
+        {confirmed.demo && (
+          <p className="mt-5 text-sm text-muted">
+            Demo mode: no email was sent.
+          </p>
+        )}
+
+        <button
+          type="button"
+          onClick={startOver}
+          className="mt-8 border-b border-amber pb-1.5 text-[0.8125rem] tracking-[0.18em] uppercase transition-colors hover:text-amber"
+        >
+          Make another booking
+        </button>
+      </section>
+    );
   }
 
   return (
@@ -451,13 +531,23 @@ export function BookingForm() {
         </p>
       </aside>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="self-start justify-self-start bg-amber px-9 py-5 text-[0.8125rem] font-medium tracking-[0.18em] text-espresso uppercase transition-colors hover:bg-amber-light disabled:opacity-60 lg:col-start-1"
-      >
-        Request appointment
-      </button>
+      <div className="flex flex-col gap-4 lg:col-start-1">
+        {serverError && (
+          <p
+            role="alert"
+            className="border border-error/40 bg-error/10 px-4 py-3 text-[0.9375rem] text-error"
+          >
+            {serverError}
+          </p>
+        )}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="self-start bg-amber px-9 py-5 text-[0.8125rem] font-medium tracking-[0.18em] text-espresso uppercase transition-colors hover:bg-amber-light disabled:cursor-wait disabled:opacity-60"
+        >
+          {isSubmitting ? "Sending…" : "Request appointment"}
+        </button>
+      </div>
     </form>
   );
 }
