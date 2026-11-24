@@ -77,8 +77,18 @@ export function SiteFooter() {
         </nav>
       </div>
 
+      <div className="mx-auto max-w-site px-5 pb-14 md:px-8">
+        <iframe
+          src={shop.mapEmbedUrl}
+          title="Map showing Sterling & Vane in Fulton Market, Chicago"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="h-64 w-full border border-line filter-[grayscale(1)_invert(0.9)_contrast(0.9)]"
+        />
+      </div>
+
       <div className="mx-auto flex max-w-site flex-col gap-3 border-t border-line px-5 py-8 text-xs text-stone md:flex-row md:justify-between md:px-8">
-        <p>© 2026 Sterling &amp; Vane</p>
+        <p>© 2026 Sterling &amp; Vane · Concept project</p>
         <p>
           Photography: Unsplash (Fabio Alves, Tony Flood), Magnific, StockCake
         </p>

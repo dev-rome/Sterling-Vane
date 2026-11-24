@@ -15,4 +15,5 @@ export const shop = {
     { days: "Sunday", time: "10 AM – 4 PM" },
     { days: "Monday", time: "Closed" },
   ],
+  mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5940.589409886656!2d-87.66113255510862!3d41.88651873496226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2cd089e3e49d%3A0x634c70bc48c1aeb3!2sFulton%20Market%20District%2C%20Chicago%2C%20IL!5e0!3m2!1sen!2sus!4v1795534825987!5m2!1sen!2sus"
 };
