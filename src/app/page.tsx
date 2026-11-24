@@ -4,6 +4,7 @@ import { OurStory } from "@/components/OurStory";
 import { Services } from "@/components/Services";
 import { Barbers } from "@/components/Barbers";
 import { Shop } from "@/components/Shop";
+import { Concierge } from "@/components/Concierge";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <Services />
         <Barbers />
         <Shop />
+        <Concierge />
       </main>
     </>
   );
