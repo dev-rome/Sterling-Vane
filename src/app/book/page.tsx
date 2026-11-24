@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { BookingForm } from "@/components/BookingForm";
+import { BookingForm } from "@/components/booking/BookingForm";
 
 export const metadata: Metadata = {
   title: "Book an appointment",
