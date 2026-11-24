@@ -26,4 +26,16 @@
     outline: 2px solid var(--color-amber);
     outline-offset: 0.25rem;
   }
+
+  @layer base {
+    :focus-visible {
+      outline: 2px solid var(--color-amber);
+      outline-offset: 0.25rem;
+    }
+
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+      cursor: pointer;
+    }
+  }
 }
