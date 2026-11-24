@@ -17,7 +17,7 @@ export function Reviews() {
           What our guests say
         </h2>
 
-        <figure className="mx-auto flex max-w-[50rem] flex-col items-center gap-7 text-center">
+        <figure className="mx-auto flex max-w-200 flex-col items-center gap-7 text-center">
           <Stars />
           <blockquote className="font-display text-[clamp(1.75rem,1.25rem+2vw,2.625rem)] leading-tight font-normal italic">
             <p>&ldquo;{featuredReview.quote}&rdquo;</p>
