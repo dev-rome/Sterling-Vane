@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+"use client";
+
+import { useRef, useState, type FormEvent } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -10,6 +12,21 @@ import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
 import { formatPrice } from "@/lib/format";
 import { getTimeSlots, parseDate } from "@/lib/schedule";
+import {
+  addDays,
+  formatDay,
+  formatLongDay,
+  formatSlot,
+  formatWeekday,
+} from "@/lib/dates";
+import { useToday } from "@/hooks/useToday";
+import {
+  dayChip,
+  optionCard,
+  stepHeading,
+  textInput,
+  timeChip,
+} from "@/components/booking/styles";
 
 const DAYS_SHOWN = 14;
 
@@ -27,55 +44,6 @@ const steps: {
   },
   { title: "Your details", fields: ["name", "email", "phone", "notes"] },
 ];
-
-const optionCard =
-  "flex cursor-pointer items-center justify-between gap-4 border border-line bg-card p-5 transition-colors hover:border-amber has-[:checked]:border-amber";
-
-const chipFocus =
-  "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-amber";
-
-const timeChip = `flex min-h-13 cursor-pointer items-center justify-center border border-line bg-card px-3 text-[0.9375rem] transition-colors hover:border-amber has-[:checked]:border-amber has-[:checked]:bg-amber has-[:checked]:text-espresso ${chipFocus}`;
-
-const dayChip = `flex min-h-18 cursor-pointer flex-col items-center justify-center gap-1 border border-line bg-card px-2 transition-colors hover:border-amber has-[:checked]:border-amber has-[:checked]:bg-amber has-[:checked]:text-espresso has-[:disabled]:cursor-not-allowed has-[:disabled]:text-muted has-[:disabled]:line-through has-[:disabled]:hover:border-line ${chipFocus}`;
-
-const textInput =
-  "w-full border border-line bg-card px-4 py-3 text-[0.9375rem] placeholder:text-muted aria-invalid:border-error";
-
-const stepHeading = "font-display text-[2rem] leading-tight";
-
-const formatDay = new Intl.DateTimeFormat("en-US", {
-  weekday: "short",
-  month: "short",
-  day: "numeric",
-});
-const formatLongDay = new Intl.DateTimeFormat("en-US", {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-});
-const formatWeekday = new Intl.DateTimeFormat("en-US", { weekday: "short" });
-
-// "2026-12-04" from a Date, in local time.
-function toInputDate(date: Date) {
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${date.getFullYear()}-${month}-${day}`;
-}
-
-// The browser's clock is an "external store" with no events to subscribe to.
-const subscribeToNothing = () => () => {};
-
-function addDays(value: string, days: number) {
-  const [year, month, day] = value.split("-").map(Number);
-  return toInputDate(new Date(year, month - 1, day + days));
-}
-
-// "14:00" → "2 PM"
-function formatSlot(slot: string) {
-  const hour = Number(slot.split(":")[0]);
-  const suffix = hour >= 12 ? "PM" : "AM";
-  return `${hour % 12 || 12} ${suffix}`;
-}
 
 export function BookingForm() {
   const {
@@ -109,11 +77,7 @@ export function BookingForm() {
   const [serverError, setServerError] = useState("");
   const hasNavigated = useRef(false);
 
-  const today = useSyncExternalStore(
-    subscribeToNothing,
-    () => toInputDate(new Date()), // in the browser: the visitor's date
-    () => "", // on the server: no date yet
-  );
+  const today = useToday();
 
   const upcomingDays = today
     ? Array.from({ length: DAYS_SHOWN }, (_, i) => {
