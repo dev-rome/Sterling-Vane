@@ -15,6 +15,9 @@ const optionCard =
 const timeChip =
   "flex cursor-pointer items-center justify-center border border-line bg-card px-3 py-3 text-[0.9375rem] transition-colors hover:border-amber has-[:checked]:border-amber has-[:checked]:bg-amber has-[:checked]:text-espresso has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-amber";
 
+const textInput =
+  "w-full border border-line bg-card px-4 py-3 text-[0.9375rem] placeholder:text-muted aria-invalid:border-error";
+
 // "2026-12-04" from a Date, in local time.
 function toInputDate(date: Date) {
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -216,6 +219,98 @@ export function BookingForm() {
               {errors.time.message}
             </p>
           )}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend className="font-display text-[1.75rem]">4. Your details</legend>
+
+        <div className="mt-5 grid gap-6 sm:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name" className="text-sm text-stone">
+              Full name
+            </label>
+            <input
+              id="name"
+              type="text"
+              autoComplete="name"
+              aria-invalid={errors.name ? true : undefined}
+              aria-describedby={errors.name ? "name-error" : undefined}
+              {...register("name")}
+              className={textInput}
+            />
+            {errors.name && (
+              <p id="name-error" role="alert" className="text-sm text-error">
+                {errors.name.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-sm text-stone">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              autoComplete="email"
+              aria-invalid={errors.email ? true : undefined}
+              aria-describedby={errors.email ? "email-error" : "email-hint"}
+              {...register("email")}
+              className={textInput}
+            />
+            {errors.email ? (
+              <p id="email-error" role="alert" className="text-sm text-error">
+                {errors.email.message}
+              </p>
+            ) : (
+              <p id="email-hint" className="text-sm text-stone">
+                We&rsquo;ll send your confirmation here.
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="phone" className="text-sm text-stone">
+              Phone <span className="text-muted">(optional)</span>
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              aria-invalid={errors.phone ? true : undefined}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
+              {...register("phone")}
+              className={textInput}
+            />
+            {errors.phone && (
+              <p id="phone-error" role="alert" className="text-sm text-error">
+                {errors.phone.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2 sm:col-span-2">
+            <label htmlFor="notes" className="text-sm text-stone">
+              Notes for your barber{" "}
+              <span className="text-muted">(optional)</span>
+            </label>
+            <textarea
+              id="notes"
+              rows={4}
+              placeholder="Anything we should know: the look you’re after, allergies, running late…"
+              aria-invalid={errors.notes ? true : undefined}
+              aria-describedby={errors.notes ? "notes-error" : undefined}
+              {...register("notes")}
+              className={`${textInput} resize-y`}
+            />
+            {errors.notes && (
+              <p id="notes-error" role="alert" className="text-sm text-error">
+                {errors.notes.message}
+              </p>
+            )}
+          </div>
         </div>
       </fieldset>
 
