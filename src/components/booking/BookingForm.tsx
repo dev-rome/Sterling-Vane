@@ -12,6 +12,9 @@ import { ServiceStep } from "@/components/booking/steps/ServiceStep";
 import { BarberStep } from "@/components/booking/steps/BarberStep";
 import { DateTimeStep } from "@/components/booking/steps/DateTimeStep";
 import { DetailsStep } from "@/components/booking/steps/DetailsStep";
+import { useSearchParams } from "next/navigation";
+import { services } from "@/data/services";
+import { barbers } from "@/data/barbers";
 
 const steps: {
   title: string;
@@ -39,10 +42,26 @@ const emptyBooking: BookingInput = {
   notes: "",
 };
 
+// Reads ?service= and ?barber= from links like /book?service=skin-fade.
+// Only known slugs are accepted; anything else is ignored.
+function getInitialBooking(params: URLSearchParams): BookingInput {
+  const service = params.get("service") ?? "";
+  const barber = params.get("barber") ?? "";
+
+  return {
+    ...emptyBooking,
+    service: services.some((s) => s.slug === service) ? service : "",
+    barber: barbers.some((b) => b.slug === barber) ? barber : "any",
+  };
+}
+
 export function BookingForm() {
+  const searchParams = useSearchParams();
+  const [initialBooking] = useState(() => getInitialBooking(searchParams));
+
   const methods = useForm<BookingInput>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: emptyBooking,
+    defaultValues: initialBooking,
   });
   const {
     handleSubmit,
@@ -51,7 +70,8 @@ export function BookingForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const [step, setStep] = useState(0);
+  // A service from the link is already chosen, so start at the barber step.
+  const [step, setStep] = useState(initialBooking.service ? 1 : 0);
   const [confirmed, setConfirmed] = useState<{
     booking: BookingInput;
     demo: boolean;
