@@ -7,6 +7,7 @@ import { Shop } from "@/components/Shop";
 import { Concierge } from "@/components/Concierge";
 import { Reviews } from "@/components/Reviews";
 import { CtaBanner } from "@/components/CtaBanner";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <Reviews />
         <CtaBanner />
       </main>
+      <SiteFooter />
     </>
   );
 }
