@@ -31,8 +31,8 @@ export function Concierge() {
           <em className="text-amber">to ask for?</em>
         </h2>
         <p className="max-w-[32em] text-stone">
-          Describe your hair, your face shape or the look you&apos;re after. The
-          concierge suggests a style, matches you with the right barber and
+          Describe your hair, your face shape or the look you&rsquo;re after.
+          The concierge suggests a style, matches you with the right barber and
           finds a time that works, day or night.
         </p>
       </div>
@@ -106,7 +106,7 @@ export function Concierge() {
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
-              className="size-[1.125rem]"
+              className="size-4.5"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"

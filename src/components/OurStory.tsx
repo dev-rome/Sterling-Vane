@@ -59,7 +59,7 @@ export function OurStory() {
           straight razor.
         </p>
         <p className="text-stone">
-          Walnut, brass, worn leather and a good pour on the house. It&apos;s
+          Walnut, brass, worn leather and a good pour on the house. It&rsquo;s
           the hour of your week that belongs to no one else.
         </p>
 
