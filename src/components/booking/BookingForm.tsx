@@ -1,10 +1,13 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bookingSchema, type BookingInput } from "@/lib/booking-schema";
 import { submitBooking } from "@/app/book/actions";
+import { services } from "@/data/services";
+import { barbers } from "@/data/barbers";
 import { BookingProgress } from "@/components/booking/BookingProgress";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { BookingConfirmation } from "@/components/booking/BookingConfirmation";
@@ -12,9 +15,6 @@ import { ServiceStep } from "@/components/booking/steps/ServiceStep";
 import { BarberStep } from "@/components/booking/steps/BarberStep";
 import { DateTimeStep } from "@/components/booking/steps/DateTimeStep";
 import { DetailsStep } from "@/components/booking/steps/DetailsStep";
-import { useSearchParams } from "next/navigation";
-import { services } from "@/data/services";
-import { barbers } from "@/data/barbers";
 
 const steps: {
   title: string;
@@ -55,10 +55,19 @@ function getInitialBooking(params: URLSearchParams): BookingInput {
   };
 }
 
+// A new key (different link) builds a fresh wizard with the new choices.
 export function BookingForm() {
   const searchParams = useSearchParams();
-  const [initialBooking] = useState(() => getInitialBooking(searchParams));
 
+  return (
+    <BookingWizard
+      key={searchParams.toString()}
+      initialBooking={getInitialBooking(searchParams)}
+    />
+  );
+}
+
+function BookingWizard({ initialBooking }: { initialBooking: BookingInput }) {
   const methods = useForm<BookingInput>({
     resolver: zodResolver(bookingSchema),
     defaultValues: initialBooking,
