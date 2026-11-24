@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { BookingForm } from "@/components/BookingForm";
 
 export const metadata: Metadata = {
   title: "Book an appointment",
@@ -23,6 +24,7 @@ export default function BookPage() {
           Choose a service, a barber and a time. We&rsquo;ll confirm your
           appointment by email.
         </p>
+        <BookingForm />
       </main>
       <SiteFooter />
     </>
