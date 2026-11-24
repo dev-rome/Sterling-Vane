@@ -2,11 +2,11 @@ import Link from "next/link";
 import { MobileMenu } from "@/components/MobileMenu";
 
 const navLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#story", label: "Our Story" },
-  { href: "#barbers", label: "Barbers" },
-  { href: "#shop", label: "Shop" },
-  { href: "#visit", label: "Visit" },
+  { href: "/#services", label: "Services" },
+  { href: "/#story", label: "Our Story" },
+  { href: "/#barbers", label: "Barbers" },
+  { href: "/#shop", label: "Shop" },
+  { href: "/#visit", label: "Visit" },
 ];
 
 export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
