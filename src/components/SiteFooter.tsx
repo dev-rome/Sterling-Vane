@@ -2,9 +2,9 @@ import Link from "next/link";
 import { shop } from "@/data/shop";
 
 const footerLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#barbers", label: "Barbers" },
-  { href: "#shop", label: "Shop" },
+  { href: "/#services", label: "Services" },
+  { href: "/#barbers", label: "Barbers" },
+  { href: "/#shop", label: "Shop" },
   { href: "/book", label: "Book an appointment" },
 ];
 

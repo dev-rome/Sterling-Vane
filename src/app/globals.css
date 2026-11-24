@@ -11,6 +11,7 @@
   --color-amber-light: #e3b377;
   --color-copper: #a56230;
   --color-muted: #6e665d;
+  --color-error: #f0a3a3;
 
   --container-site: 77.5rem;
 }
@@ -24,5 +25,17 @@
   :focus-visible {
     outline: 2px solid var(--color-amber);
     outline-offset: 0.25rem;
+  }
+
+  @layer base {
+    :focus-visible {
+      outline: 2px solid var(--color-amber);
+      outline-offset: 0.25rem;
+    }
+
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+      cursor: pointer;
+    }
   }
 }
