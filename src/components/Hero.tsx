@@ -24,7 +24,8 @@ export function Hero() {
 
       <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 pt-36 pb-12 md:px-8 md:pt-44 md:pb-10">
         <p className="self-start border border-amber px-3.5 py-1.5 text-[0.6875rem] font-medium tracking-[0.28em] text-amber uppercase">
-          West Loop · Chicago · Est. 2014
+          <span className="max-[22.5rem]:hidden">West Loop · </span>Chicago ·
+          Est. 2014
         </p>
 
         <h1
