@@ -9,11 +9,17 @@ import { barbers } from "@/data/barbers";
 import { formatPrice } from "@/lib/format";
 import { getTimeSlots, parseDate } from "@/lib/schedule";
 
+const DAYS_SHOWN = 14;
+
 const optionCard =
   "flex cursor-pointer items-center justify-between gap-4 border border-line bg-card p-5 transition-colors hover:border-amber has-[:checked]:border-amber";
 
-const timeChip =
-  "flex cursor-pointer items-center justify-center border border-line bg-card px-3 py-3 text-[0.9375rem] transition-colors hover:border-amber has-[:checked]:border-amber has-[:checked]:bg-amber has-[:checked]:text-espresso has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-amber";
+const chipFocus =
+  "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-amber";
+
+const timeChip = `flex cursor-pointer items-center justify-center border border-line bg-card px-3 py-3 text-[0.9375rem] transition-colors hover:border-amber has-[:checked]:border-amber has-[:checked]:bg-amber has-[:checked]:text-espresso ${chipFocus}`;
+
+const dayChip = `flex cursor-pointer flex-col items-center gap-0.5 border border-line bg-card px-2 py-3 transition-colors hover:border-amber has-[:checked]:border-amber has-[:checked]:bg-amber has-[:checked]:text-espresso has-[:disabled]:cursor-not-allowed has-[:disabled]:text-muted has-[:disabled]:line-through has-[:disabled]:hover:border-line ${chipFocus}`;
 
 const textInput =
   "w-full border border-line bg-card px-4 py-3 text-[0.9375rem] placeholder:text-muted aria-invalid:border-error";
@@ -23,6 +29,8 @@ const formatDay = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
 });
+const formatWeekday = new Intl.DateTimeFormat("en-US", { weekday: "short" });
+const formatMonth = new Intl.DateTimeFormat("en-US", { month: "short" });
 
 // "2026-12-04" from a Date, in local time.
 function toInputDate(date: Date) {
@@ -72,7 +80,20 @@ export function BookingForm() {
     () => toInputDate(new Date()), // in the browser: the visitor's date
     () => "", // on the server: no date yet
   );
-  const latestDate = today ? addDays(today, 60) : "";
+
+  const upcomingDays = today
+    ? Array.from({ length: DAYS_SHOWN }, (_, i) => {
+        const value = addDays(today, i);
+        const date = parseDate(value)!;
+        return {
+          value,
+          weekday: formatWeekday.format(date),
+          dayNumber: date.getDate(),
+          month: formatMonth.format(date),
+          isOpen: getTimeSlots(value).length > 0,
+        };
+      })
+    : [];
 
   const [serviceSlug, barberSlug, selectedDate, selectedTime] = useWatch({
     control,
@@ -183,22 +204,50 @@ export function BookingForm() {
             3. Choose a date and time
           </legend>
 
-          <div className="mt-5 flex flex-col gap-2">
-            <label htmlFor="date" className="text-sm text-stone">
+          <div
+            role="radiogroup"
+            aria-labelledby="date-label"
+            aria-describedby={errors.date ? "date-error" : undefined}
+            className="mt-5"
+          >
+            <p id="date-label" className="text-sm text-stone">
               Date
-            </label>
-            <input
-              id="date"
-              type="date"
-              min={today || undefined}
-              max={latestDate || undefined}
-              aria-invalid={errors.date ? true : undefined}
-              aria-describedby={errors.date ? "date-error" : undefined}
-              {...register("date", { onChange: () => setValue("time", "") })}
-              className="w-full max-w-[20rem] border border-line bg-card px-4 py-3 scheme-dark aria-invalid:border-error"
-            />
+            </p>
+            {upcomingDays.length > 0 ? (
+              <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-7">
+                {upcomingDays.map((day) => (
+                  <label key={day.value} className={dayChip}>
+                    <input
+                      type="radio"
+                      value={day.value}
+                      disabled={!day.isOpen}
+                      {...register("date", {
+                        onChange: () => setValue("time", ""),
+                      })}
+                      className="sr-only"
+                    />
+                    <span className="text-xs tracking-[0.12em] uppercase">
+                      {day.weekday}
+                    </span>
+                    <span className="font-display text-2xl leading-none">
+                      {day.dayNumber}
+                    </span>
+                    <span className="text-xs">{day.month}</span>
+                    {!day.isOpen && <span className="sr-only">, closed</span>}
+                  </label>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 text-[0.9375rem] text-stone">
+                Loading available dates…
+              </p>
+            )}
             {errors.date && (
-              <p id="date-error" role="alert" className="text-sm text-error">
+              <p
+                id="date-error"
+                role="alert"
+                className="mt-3 text-sm text-error"
+              >
                 {errors.date.message}
               </p>
             )}
