@@ -1,18 +1,16 @@
 import { z } from "zod";
 import { services } from "@/data/services";
 import { barbers } from "@/data/barbers";
-import { getTimeSlots, parseDate } from "@/lib/schedule";
+import { getBookableSlots, getTimeSlots, parseDate } from "@/lib/schedule";
+import { addDays } from "@/lib/dates";
+import { getShopNow } from "@/lib/shop-time";
 
 const MAX_DAYS_AHEAD = 60;
 
 function isWithinBookingWindow(value: string) {
-  const date = parseDate(value);
-  if (!date) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const latest = new Date(today);
-  latest.setDate(latest.getDate() + MAX_DAYS_AHEAD);
-  return date >= today && date <= latest;
+  if (!parseDate(value)) return false;
+  const today = getShopNow().date;
+  return value >= today && value <= addDays(today, MAX_DAYS_AHEAD);
 }
 
 export const bookingSchema = z
@@ -58,9 +56,12 @@ export const bookingSchema = z
       .trim()
       .max(500, { error: "Please keep notes under 500 characters." }),
   })
-  .refine((data) => getTimeSlots(data.date).includes(data.time), {
-    error: "That time isn’t available. Please choose another.",
-    path: ["time"],
-  });
+  .refine(
+    (data) => getBookableSlots(data.date, getShopNow()).includes(data.time),
+    {
+      error: "That time isn’t available. Please choose another.",
+      path: ["time"],
+    },
+  );
 
 export type BookingInput = z.infer<typeof bookingSchema>;

@@ -1,3 +1,5 @@
+import type { ShopNow } from "@/lib/shop-time";
+
 // Opening hours in 24-hour time, matching shop.hours. 0 = Sunday … 6 = Saturday.
 const openingHours: Record<number, { open: number; close: number } | null> = {
   0: { open: 10, close: 16 },
@@ -29,4 +31,12 @@ export function getTimeSlots(value: string): string[] {
     slots.push(`${String(hour).padStart(2, "0")}:00`);
   }
   return slots;
+}
+
+/** Slots that can still be booked: none in the past, and today only from the next hour on. */
+export function getBookableSlots(value: string, now: ShopNow): string[] {
+  if (value < now.date) return [];
+  const slots = getTimeSlots(value);
+  if (value > now.date) return slots;
+  return slots.filter((slot) => Number(slot.slice(0, 2)) > now.hour);
 }

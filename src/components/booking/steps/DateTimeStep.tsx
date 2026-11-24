@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { BookingInput } from "@/lib/booking-schema";
 import { barbers } from "@/data/barbers";
-import { getTimeSlots, parseDate } from "@/lib/schedule";
+import { getBookableSlots, parseDate } from "@/lib/schedule";
 import {
   addDays,
   formatLongDay,
@@ -12,7 +12,7 @@ import {
   formatSlot,
   formatWeekday,
 } from "@/lib/dates";
-import { useToday } from "@/hooks/useToday";
+import { useShopNow } from "@/hooks/useShopNow";
 import { dayChip, errorText, stepHeading, timeChip } from "../styles";
 import type { StepProps } from "./types";
 
@@ -27,7 +27,8 @@ export function DateTimeStep({ focusRef }: StepProps) {
     control,
     formState: { errors },
   } = useFormContext<BookingInput>();
-  const today = useToday();
+  const now = useShopNow();
+  const today = now?.date ?? "";
   const [weekOffset, setWeekOffset] = useState(() => {
     // Open on the week containing the already-chosen date, if there is one.
     const chosen = parseDate(getValues("date"));
@@ -48,7 +49,7 @@ export function DateTimeStep({ focusRef }: StepProps) {
   });
   const chosenBarber = barbers.find((b) => b.slug === barberSlug);
   const chosenDate = parseDate(selectedDate);
-  const timeSlots = getTimeSlots(selectedDate);
+  const timeSlots = now ? getBookableSlots(selectedDate, now) : [];
 
   const weekDays = today
     ? Array.from({ length: DAYS_PER_WEEK }, (_, i) => {
@@ -59,7 +60,7 @@ export function DateTimeStep({ focusRef }: StepProps) {
           date,
           weekday: formatWeekday.format(date),
           dayNumber: date.getDate(),
-          isOpen: getTimeSlots(value).length > 0,
+          isOpen: now ? getBookableSlots(value, now).length > 0 : false,
         };
       })
     : [];
@@ -154,6 +155,9 @@ export function DateTimeStep({ focusRef }: StepProps) {
                   : "first available barber"
               }`
             : "Choose a day to see available times."}
+        </p>
+        <p className="mt-1 text-xs text-stone">
+          Times shown in Chicago time (CT).
         </p>
         {timeSlots.length > 0 && (
           <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4">
