@@ -1,10 +1,13 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bookingSchema, type BookingInput } from "@/lib/booking-schema";
 import { submitBooking } from "@/app/book/actions";
+import { services } from "@/data/services";
+import { barbers } from "@/data/barbers";
 import { BookingProgress } from "@/components/booking/BookingProgress";
 import { BookingSummary } from "@/components/booking/BookingSummary";
 import { BookingConfirmation } from "@/components/booking/BookingConfirmation";
@@ -39,10 +42,35 @@ const emptyBooking: BookingInput = {
   notes: "",
 };
 
+// Reads ?service= and ?barber= from links like /book?service=skin-fade.
+// Only known slugs are accepted; anything else is ignored.
+function getInitialBooking(params: URLSearchParams): BookingInput {
+  const service = params.get("service") ?? "";
+  const barber = params.get("barber") ?? "";
+
+  return {
+    ...emptyBooking,
+    service: services.some((s) => s.slug === service) ? service : "",
+    barber: barbers.some((b) => b.slug === barber) ? barber : "any",
+  };
+}
+
+// A new key (different link) builds a fresh wizard with the new choices.
 export function BookingForm() {
+  const searchParams = useSearchParams();
+
+  return (
+    <BookingWizard
+      key={searchParams.toString()}
+      initialBooking={getInitialBooking(searchParams)}
+    />
+  );
+}
+
+function BookingWizard({ initialBooking }: { initialBooking: BookingInput }) {
   const methods = useForm<BookingInput>({
     resolver: zodResolver(bookingSchema),
-    defaultValues: emptyBooking,
+    defaultValues: initialBooking,
   });
   const {
     handleSubmit,
@@ -51,7 +79,8 @@ export function BookingForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const [step, setStep] = useState(0);
+  // A service from the link is already chosen, so start at the barber step.
+  const [step, setStep] = useState(initialBooking.service ? 1 : 0);
   const [confirmed, setConfirmed] = useState<{
     booking: BookingInput;
     demo: boolean;

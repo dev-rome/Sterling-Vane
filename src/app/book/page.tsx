@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { BookingForm } from "@/components/booking/BookingForm";
@@ -24,7 +25,9 @@ export default function BookPage() {
           Choose a service, a barber and a time. We&rsquo;ll confirm your
           appointment by email.
         </p>
-        <BookingForm />
+        <Suspense fallback={<div className="mt-12 min-h-160" />}>
+          <BookingForm />
+        </Suspense>
       </main>
       <SiteFooter />
     </>
