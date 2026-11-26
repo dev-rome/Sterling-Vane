@@ -6,6 +6,7 @@ import {
   type UIMessage,
 } from "ai";
 import { conciergeSystemPrompt } from "@/lib/concierge-prompt";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 // Stop a slow reply after 30 seconds.
 export const maxDuration = 30;
@@ -21,6 +22,19 @@ function badRequest(error: string) {
 }
 
 export async function POST(request: Request) {
+  const limit = await checkRateLimit(request);
+  if (!limit.ok) {
+    return Response.json(
+      { error: limit.error },
+      {
+        status: limit.status,
+        headers: limit.retryAfter
+          ? { "Retry-After": String(limit.retryAfter) }
+          : undefined,
+      },
+    );
+  }
+
   let messages: UIMessage[];
   try {
     ({ messages } = await request.json());
@@ -51,6 +65,7 @@ export async function POST(request: Request) {
     messages: await convertToModelMessages(messages),
     reasoning: "none", // A concierge reply doesn't need step-by-step thinking.
     maxOutputTokens: 600,
+    maxRetries: 1,
     onError: ({ error }) => console.error("[concierge]", error),
   });
 

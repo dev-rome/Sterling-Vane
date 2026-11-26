@@ -54,6 +54,15 @@ function splitReply(text: string) {
   return { body, links };
 }
 
+// The route sends { error: "…" }; show that text when there is one.
+function getErrorMessage(error: Error) {
+  try {
+    const { error: message } = JSON.parse(error.message);
+    if (typeof message === "string") return message;
+  } catch {}
+  return "Sorry, the concierge couldn’t reply just now.";
+}
+
 const bubble = "px-4 py-3.5 text-[0.9375rem] whitespace-pre-line";
 const guestBubble = `${bubble} max-w-[80%] self-end bg-line`;
 const conciergeBubble = `${bubble} max-w-[86%] self-start border border-line`;
@@ -163,7 +172,7 @@ export function ConciergeChat() {
 
         {error && (
           <li role="alert" className="self-start text-[0.9375rem] text-error">
-            Sorry, the concierge couldn’t reply just now.{" "}
+            {getErrorMessage(error)}{" "}
             <button
               type="button"
               onClick={() => void regenerate()}
