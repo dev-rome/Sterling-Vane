@@ -6,6 +6,8 @@ A premium barbershop website for a fictional shop in Chicago's West Loop, with a
 
 **Live site:** https://sterling-vane-lyart.vercel.app
 
+**Case study:** [How I built it](docs/case-study.md)
+
 > Concept project for my portfolio. The shop, barbers, reviews and contact details are fictional.
 
 ## Highlights
