@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -16,12 +17,6 @@ const jost = Jost({
   variable: "--font-jost",
   display: "swap",
 });
-
-// Full site URL, so Next.js can build absolute links for social previews.
-// Vercel sets VERCEL_PROJECT_PRODUCTION_URL automatically; locally we fall back to localhost.
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

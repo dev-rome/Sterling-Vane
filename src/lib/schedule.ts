@@ -1,7 +1,10 @@
 import type { ShopNow } from "@/lib/shop-time";
 
 // Opening hours in 24-hour time, matching shop.hours. 0 = Sunday … 6 = Saturday.
-const openingHours: Record<number, { open: number; close: number } | null> = {
+export const openingHours: Record<
+  number,
+  { open: number; close: number } | null
+> = {
   0: { open: 10, close: 16 },
   1: null,
   2: { open: 10, close: 20 },
