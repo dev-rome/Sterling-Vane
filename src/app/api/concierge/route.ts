@@ -11,8 +11,8 @@ import { checkRateLimit } from "@/lib/rate-limit";
 // Stop a slow reply after 30 seconds.
 export const maxDuration = 30;
 
-// Free-tier model on the AI Gateway. Changing models is this one line.
-const MODEL = "nvidia/nemotron-3.5-lightning-free";
+// Small, fast model through the AI Gateway. Changing models is this one line.
+const MODEL = "google/gemini-3.8-flash";
 
 const MAX_MESSAGES = 20;
 const MAX_CHARS = 500;

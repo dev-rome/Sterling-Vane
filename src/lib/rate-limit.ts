@@ -4,6 +4,8 @@ import { Redis } from "@upstash/redis";
 const url = process.env.KV_REST_API_URL;
 const token = process.env.KV_REST_API_TOKEN;
 const redis = url && token ? new Redis({ url, token }) : null;
+// Local, preview and production share one database, so keep their counts apart.
+const env = process.env.VERCEL_ENV ?? "development";
 
 // Per visitor: a short burst limit and a daily limit.
 // For the whole site: a daily cap that protects the AI credits.
@@ -13,7 +15,7 @@ const limiters = redis
         name: "minute",
         limiter: new Ratelimit({
           redis,
-          prefix: "concierge:min",
+          prefix: `concierge:${env}:min`,
           limiter: Ratelimit.slidingWindow(10, "1 m"),
         }),
         perVisitor: true,
@@ -24,7 +26,7 @@ const limiters = redis
         name: "day",
         limiter: new Ratelimit({
           redis,
-          prefix: "concierge:day",
+          prefix: `concierge:${env}:day`,
           limiter: Ratelimit.fixedWindow(40, "1 d"),
         }),
         perVisitor: true,
@@ -35,7 +37,7 @@ const limiters = redis
         name: "site",
         limiter: new Ratelimit({
           redis,
-          prefix: "concierge:site",
+          prefix: `concierge:${env}:site`,
           limiter: Ratelimit.fixedWindow(500, "1 d"),
         }),
         perVisitor: false,
