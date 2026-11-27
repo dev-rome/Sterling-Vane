@@ -35,7 +35,7 @@ Next.js 16 (App Router, Server Components, Server Actions, Cache Components) · 
 git clone https://github.com/dev-rome/Sterling-Vane.git
 cd sterling-and-vane
 npm install
-cp .env.example .env.local   # then fill in the values you have
+cp .env.example .env.local
 npm run dev
 ```
 
@@ -83,6 +83,6 @@ Feature branches → pull request (CI + Vercel preview) → squash merge to `mai
 
 ## Credits
 
-- **Photography:** [Fabio Alves](https://unsplash.com/photos/DYetcnz0jRY) and [Tony Flood](https://unsplash.com/photos/kN9m5qAZx3M) on Unsplash; product photos from Magnific; hero photo: _TODO_.
+- **Photography:** [Fabio Alves](https://unsplash.com/photos/DYetcnz0jRY) and [Tony Flood](https://unsplash.com/photos/kN9m5qAZx3M) on Unsplash; product photos from Magnific;
 - **Barber portraits** are AI-generated images from StockCake (fictional people).
 - **Fonts:** Cormorant Garamond and Jost via Google Fonts (SIL Open Font License).
