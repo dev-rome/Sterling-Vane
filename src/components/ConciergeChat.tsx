@@ -71,7 +71,7 @@ export function ConciergeChat() {
   const { messages, sendMessage, status, error, regenerate, setMessages } =
     useChat({ transport });
   const [input, setInput] = useState("");
-  const listRef = useRef<HTMLOListElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const isBusy = status === "submitted" || status === "streaming";
   // One more message would go over the server's limit.
@@ -110,79 +110,82 @@ export function ConciergeChat() {
         </div>
       </div>
 
-      <ol
+      {/* The div announces new messages and scrolls; the ol stays a real list. */}
+      <div
         ref={listRef}
         role="log"
         aria-label="Conversation with the concierge"
         aria-busy={isBusy}
-        className="flex h-104 flex-col gap-4 overflow-y-auto p-6"
+        className="h-104 overflow-y-auto p-6"
       >
-        <li className={conciergeBubble}>
-          <span className="sr-only">Concierge: </span>
-          {greeting}
-        </li>
+        <ol className="flex flex-col gap-4">
+          <li className={conciergeBubble}>
+            <span className="sr-only">Concierge: </span>
+            {greeting}
+          </li>
 
-        {messages.map((message) => {
-          if (message.role === "user") {
+          {messages.map((message) => {
+            if (message.role === "user") {
+              return (
+                <li key={message.id} className={guestBubble}>
+                  <span className="sr-only">You: </span>
+                  {getText(message)}
+                </li>
+              );
+            }
+
+            const { body, links } = splitReply(getText(message));
             return (
-              <li key={message.id} className={guestBubble}>
-                <span className="sr-only">You: </span>
-                {getText(message)}
+              <li key={message.id} className="flex flex-col items-start gap-3">
+                <p className={conciergeBubble}>
+                  <span className="sr-only">Concierge: </span>
+                  {body}
+                </p>
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="border border-amber px-4 py-2.5 text-[0.8125rem] text-amber transition-colors hover:bg-amber hover:text-espresso"
+                  >
+                    {link.label} →
+                  </Link>
+                ))}
               </li>
             );
-          }
+          })}
 
-          const { body, links } = splitReply(getText(message));
-          return (
-            <li key={message.id} className="flex flex-col items-start gap-3">
-              <p className={conciergeBubble}>
-                <span className="sr-only">Concierge: </span>
-                {body}
-              </p>
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="border border-amber px-4 py-2.5 text-[0.8125rem] text-amber transition-colors hover:bg-amber hover:text-espresso"
-                >
-                  {link.label} →
-                </Link>
-              ))}
+          {status === "submitted" && (
+            <li className="flex items-center gap-1.5 self-start border border-line px-4 py-4">
+              <span className="sr-only">Concierge is typing…</span>
+              <span
+                aria-hidden="true"
+                className="size-1.5 rounded-full bg-stone motion-safe:animate-pulse"
+              />
+              <span
+                aria-hidden="true"
+                className="size-1.5 rounded-full bg-stone [animation-delay:150ms] motion-safe:animate-pulse"
+              />
+              <span
+                aria-hidden="true"
+                className="size-1.5 rounded-full bg-stone [animation-delay:300ms] motion-safe:animate-pulse"
+              />
             </li>
-          );
-        })}
+          )}
 
-        {status === "submitted" && (
-          <li className="flex items-center gap-1.5 self-start border border-line px-4 py-4">
-            <span className="sr-only">Concierge is typing…</span>
-            <span
-              aria-hidden="true"
-              className="size-1.5 rounded-full bg-stone motion-safe:animate-pulse"
-            />
-            <span
-              aria-hidden="true"
-              className="size-1.5 rounded-full bg-stone [animation-delay:150ms] motion-safe:animate-pulse"
-            />
-            <span
-              aria-hidden="true"
-              className="size-1.5 rounded-full bg-stone [animation-delay:300ms] motion-safe:animate-pulse"
-            />
-          </li>
-        )}
-
-        {error && (
-          <li role="alert" className="self-start text-[0.9375rem] text-error">
-            {getErrorMessage(error)}{" "}
-            <button
-              type="button"
-              onClick={() => void regenerate()}
-              className="underline underline-offset-4 hover:text-ivory"
-            >
-              Try again
-            </button>
-          </li>
-        )}
-      </ol>
+          {error && (
+            <li role="alert" className="self-start text-[0.9375rem] text-error">
+              {getErrorMessage(error)}{" "}
+              <button
+                type="button"
+                onClick={() => void regenerate()}
+                className="underline underline-offset-4 hover:text-ivory"
+              >
+                Try again
+              </button>
+            </li>
+          )}
+        </ol>
+      </div>
 
       {messages.length === 0 && (
         <ul
@@ -255,7 +258,7 @@ export function ConciergeChat() {
         </button>
       </form>
 
-      <p className="border-t border-line px-6 py-3 text-xs text-muted">
+      <p className="border-t border-line px-6 py-3 text-xs text-stone">
         AI replies can be wrong. Concept project; please confirm details with
         the shop.
       </p>
