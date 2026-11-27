@@ -8,12 +8,14 @@ import { Concierge } from "@/components/Concierge";
 import { Reviews } from "@/components/Reviews";
 import { CtaBanner } from "@/components/CtaBanner";
 import { SiteFooter } from "@/components/SiteFooter";
+import { LocalBusinessJsonLd } from "@/components/LocalBusinessJsonLd";
 
 export default function Home() {
   return (
     <>
       <SiteHeader overlay />
       <main>
+        <LocalBusinessJsonLd />
         <Hero />
         <OurStory />
         <Services />

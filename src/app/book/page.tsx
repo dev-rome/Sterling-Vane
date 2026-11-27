@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Book an appointment",
   description:
     "Reserve your chair at Sterling & Vane. Choose a service, a barber and a time that suits you.",
+  alternates: { canonical: "/book" },
 };
 
 export default function BookPage() {

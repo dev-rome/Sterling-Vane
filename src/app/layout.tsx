@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -18,8 +19,21 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Sterling & Vane",
-  description: "Gentlemen's barbers in Chicago's West Loop.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Sterling & Vane · Gentlemen’s Barbers in Chicago’s West Loop",
+    template: "%s | Sterling & Vane",
+  },
+  description:
+    "Premium cuts, hot towel shaves and beard work in Chicago’s West Loop since 2014. Meet our barbers and book your chair online.",
+  applicationName: "Sterling & Vane",
+  alternates: { canonical: "/" },
+  twitter: { card: "summary_large_image" },
+  openGraph: {
+    type: "website",
+    siteName: "Sterling & Vane",
+    locale: "en_US",
+  },
 };
 
 export default function RootLayout({
