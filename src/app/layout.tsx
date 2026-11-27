@@ -33,6 +33,13 @@ export const metadata: Metadata = {
     "Premium cuts, hot towel shaves and beard work in Chicago’s West Loop since 2014. Meet our barbers and book your chair online.",
   applicationName: "Sterling & Vane",
   alternates: { canonical: "/" },
+  twitter: { card: "summary_large_image" },
+  openGraph: {
+    type: "website",
+    siteName: "Sterling & Vane",
+    locale: "en_US",
+    url: "/",
+  },
 };
 
 export default function RootLayout({
