@@ -10,7 +10,7 @@ import { parseDate } from "@/lib/schedule";
 import { formatDay, formatSlot } from "@/lib/dates";
 
 function NotChosen({ children = "Not chosen" }: { children?: string }) {
-  return <span className="text-muted">{children}</span>;
+  return <span className="text-stone">{children}</span>;
 }
 
 export function BookingSummary({ className = "" }: { className?: string }) {
@@ -85,7 +85,7 @@ export function BookingSummary({ className = "" }: { className?: string }) {
           Not sure which service?{" "}
           <Link
             href="/#concierge"
-            className="text-amber underline-offset-4 hover:underline"
+            className="text-amber underline underline-offset-4 transition-colors hover:text-amber-light"
           >
             Ask the concierge
           </Link>
