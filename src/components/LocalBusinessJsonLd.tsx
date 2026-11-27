@@ -31,7 +31,7 @@ const openingHoursSpecification = Object.entries(openingHours).flatMap(
 
 const data = {
   "@context": "https://schema.org",
-  "@type": "BarberShop",
+  "@type": "HairSalon",
   name: shop.name,
   description: shop.tagline,
   url: siteUrl,
