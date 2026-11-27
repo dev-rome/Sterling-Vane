@@ -33,7 +33,6 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Sterling & Vane",
     locale: "en_US",
-    url: "/",
   },
 };
 
