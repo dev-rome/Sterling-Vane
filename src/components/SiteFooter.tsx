@@ -90,7 +90,8 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-site flex-col gap-3 border-t border-line px-5 py-8 text-xs text-stone md:flex-row md:justify-between md:px-8">
         <p>© 2026 Sterling &amp; Vane · Concept project</p>
         <p>
-          Photography: Unsplash (Fabio Alves, Tony Flood), Magnific, StockCake
+          Photography: Unsplash (Nathon Oski, Fabio Alves, Tony Flood),
+          Magnific, StockCake
         </p>
       </div>
     </footer>
